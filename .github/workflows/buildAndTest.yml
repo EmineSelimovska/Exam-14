@@ -25,3 +25,23 @@ jobs:
       run: npm run test:unit
     - name: Display softuni username
       run: echo 'emines'
+
+  build-ui-tests:
+        needs: build-unit-tests
+        runs-on: ubuntu-latest
+    
+        steps:
+        - uses: actions/checkout@v4
+        - name: Use Node.js 20.x
+          uses: actions/setup-node@v4
+          with:
+            node-version: 20.x
+            cache: 'npm'
+        - name: Install dependance
+          run: npm install
+        - name: Install playwright
+          run: npx playwright install
+        - name: Start the app
+          run: npm run start &
+        - name: Execute unit tests
+          run: npm run test:ui
